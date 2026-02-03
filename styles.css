@@ -7,47 +7,45 @@
 
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: #fafafa;
     min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    color: #1f2937;
+    color: #000;
     line-height: 1.6;
 }
 
 .container {
     background: white;
-    border-radius: 16px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-    max-width: 900px;
+    max-width: 1000px;
     width: 100%;
-    overflow: hidden;
+    margin: 0 auto;
+    min-height: 100vh;
 }
 
 /* Header */
 header {
-    background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
-    color: white;
-    padding: 40px;
-    text-align: center;
+    background: white;
+    border-bottom: 1px solid #eaeaea;
+    padding: 48px 40px;
 }
 
 header h1 {
-    font-size: 32px;
-    font-weight: 700;
+    font-size: 40px;
+    font-weight: 600;
     margin-bottom: 8px;
+    letter-spacing: -0.05em;
 }
 
 .subtitle {
     font-size: 16px;
-    opacity: 0.95;
+    color: #666;
+    font-weight: 400;
 }
 
 /* Main content */
 main {
-    padding: 40px;
+    padding: 60px 40px;
+    max-width: 800px;
+    margin: 0 auto;
 }
 
 /* Upload section */
@@ -56,12 +54,12 @@ main {
 }
 
 .upload-area {
-    border: 3px dashed #cbd5e1;
-    border-radius: 12px;
+    border: 2px dashed #d4d4d4;
+    border-radius: 8px;
     padding: 60px 40px;
     cursor: pointer;
-    transition: all 0.3s ease;
-    background: #f8fafc;
+    transition: all 0.2s ease;
+    background: #fafafa;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -69,47 +67,47 @@ main {
 }
 
 .upload-area:hover {
-    border-color: #2563eb;
-    background: #eff6ff;
+    border-color: #000;
+    background: #f5f5f5;
 }
 
 .upload-area.drag-over {
-    border-color: #2563eb;
-    background: #dbeafe;
-    transform: scale(1.02);
+    border-color: #000;
+    background: #f0f0f0;
 }
 
 .upload-icon {
-    color: #64748b;
+    color: #666;
     margin-bottom: 8px;
 }
 
 .upload-area h2 {
-    font-size: 24px;
-    color: #1e293b;
-    margin-bottom: 8px;
+    font-size: 20px;
+    color: #000;
+    font-weight: 600;
+    margin-bottom: 4px;
 }
 
 .upload-area p {
-    color: #64748b;
-    font-size: 15px;
+    color: #666;
+    font-size: 14px;
     margin-bottom: 16px;
 }
 
 .browse-btn {
-    background: #2563eb;
+    background: #000;
     color: white;
     border: none;
-    padding: 12px 32px;
-    border-radius: 8px;
-    font-size: 15px;
-    font-weight: 600;
+    padding: 10px 24px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
     cursor: pointer;
     transition: background 0.2s ease;
 }
 
 .browse-btn:hover {
-    background: #1d4ed8;
+    background: #333;
 }
 
 /* File info */
@@ -117,8 +115,9 @@ main {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: #f1f5f9;
-    border-radius: 12px;
+    background: #fafafa;
+    border: 1px solid #eaeaea;
+    border-radius: 8px;
     padding: 20px;
     margin-bottom: 24px;
 }
@@ -130,7 +129,7 @@ main {
 }
 
 .file-icon {
-    color: #2563eb;
+    color: #000;
     flex-shrink: 0;
 }
 
@@ -139,74 +138,74 @@ main {
 }
 
 .file-name {
-    font-weight: 600;
-    color: #1e293b;
-    font-size: 16px;
+    font-weight: 500;
+    color: #000;
+    font-size: 14px;
     margin-bottom: 4px;
 }
 
 .file-size {
-    color: #64748b;
-    font-size: 14px;
+    color: #666;
+    font-size: 13px;
 }
 
 .remove-btn {
-    background: #ef4444;
-    color: white;
-    border: none;
+    background: transparent;
+    color: #666;
+    border: 1px solid #eaeaea;
     width: 32px;
     height: 32px;
-    border-radius: 50%;
-    font-size: 24px;
+    border-radius: 6px;
+    font-size: 20px;
     line-height: 1;
     cursor: pointer;
-    transition: background 0.2s ease;
+    transition: all 0.2s ease;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
 .remove-btn:hover {
-    background: #dc2626;
+    background: #000;
+    color: white;
+    border-color: #000;
 }
 
 /* Analyze button */
 .analyze-btn {
-    background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+    background: #000;
     color: white;
     border: none;
-    padding: 16px 48px;
-    border-radius: 8px;
-    font-size: 16px;
-    font-weight: 600;
+    padding: 12px 32px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
     cursor: pointer;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+    transition: all 0.2s ease;
 }
 
 .analyze-btn:hover:not(:disabled) {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(37, 99, 235, 0.4);
+    background: #333;
 }
 
 .analyze-btn:disabled {
-    opacity: 0.5;
+    opacity: 0.4;
     cursor: not-allowed;
 }
 
 /* Loading section */
 .loading-section {
     text-align: center;
-    padding: 60px 40px;
+    padding: 80px 40px;
 }
 
 .spinner {
-    width: 60px;
-    height: 60px;
-    border: 5px solid #e5e7eb;
-    border-top-color: #2563eb;
+    width: 40px;
+    height: 40px;
+    border: 3px solid #eaeaea;
+    border-top-color: #000;
     border-radius: 50%;
-    animation: spin 1s linear infinite;
+    animation: spin 0.8s linear infinite;
     margin: 0 auto 24px;
 }
 
@@ -217,30 +216,28 @@ main {
 }
 
 .loading-text {
-    font-size: 20px;
-    font-weight: 600;
-    color: #1e293b;
+    font-size: 16px;
+    font-weight: 500;
+    color: #000;
     margin-bottom: 8px;
 }
 
 .loading-subtext {
-    font-size: 15px;
-    color: #64748b;
+    font-size: 14px;
+    color: #666;
 }
 
 /* Results section */
 .results-section {
-    animation: fadeIn 0.5s ease;
+    animation: fadeIn 0.3s ease;
 }
 
 @keyframes fadeIn {
     from {
         opacity: 0;
-        transform: translateY(20px);
     }
     to {
         opacity: 1;
-        transform: translateY(0);
     }
 }
 
@@ -248,30 +245,33 @@ main {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 32px;
-    padding-bottom: 16px;
-    border-bottom: 2px solid #e5e7eb;
+    margin-bottom: 40px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid #eaeaea;
 }
 
 .results-header h2 {
-    font-size: 28px;
-    color: #1e293b;
+    font-size: 32px;
+    font-weight: 600;
+    color: #000;
+    letter-spacing: -0.03em;
 }
 
 .new-analysis-btn {
-    background: #64748b;
-    color: white;
-    border: none;
-    padding: 10px 20px;
+    background: white;
+    color: #000;
+    border: 1px solid #eaeaea;
+    padding: 8px 16px;
     border-radius: 6px;
-    font-size: 14px;
-    font-weight: 600;
+    font-size: 13px;
+    font-weight: 500;
     cursor: pointer;
-    transition: background 0.2s ease;
+    transition: all 0.2s ease;
 }
 
 .new-analysis-btn:hover {
-    background: #475569;
+    background: #fafafa;
+    border-color: #000;
 }
 
 /* Analysis content */
@@ -282,33 +282,35 @@ main {
 }
 
 .section {
-    background: #f8fafc;
-    border-radius: 12px;
-    padding: 24px;
-    border-left: 4px solid #2563eb;
+    background: white;
+    border: 1px solid #eaeaea;
+    border-radius: 8px;
+    padding: 28px;
 }
 
 .section.bid-decision {
-    background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
-    border-left-color: #10b981;
+    background: #f0fdf4;
+    border-color: #bbf7d0;
 }
 
 .section.risks {
-    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
-    border-left-color: #f59e0b;
+    background: #fef3c7;
+    border-color: #fde68a;
 }
 
 .section h3 {
-    font-size: 20px;
-    color: #1e293b;
+    font-size: 18px;
+    color: #000;
     margin-bottom: 16px;
-    font-weight: 700;
+    font-weight: 600;
+    letter-spacing: -0.02em;
 }
 
 .section p {
-    color: #475569;
+    color: #333;
     margin-bottom: 12px;
-    font-size: 15px;
+    font-size: 14px;
+    line-height: 1.7;
 }
 
 .section p:last-child {
@@ -318,101 +320,101 @@ main {
 .section ul {
     list-style: none;
     padding: 0;
+    margin: 0;
 }
 
 .section li {
-    color: #475569;
+    color: #333;
     padding: 8px 0;
-    padding-left: 24px;
+    padding-left: 20px;
     position: relative;
-    font-size: 15px;
+    font-size: 14px;
+    line-height: 1.7;
 }
 
 .section li:before {
     content: "•";
-    color: #2563eb;
+    color: #000;
     font-weight: bold;
     position: absolute;
-    left: 8px;
-}
-
-.section.risks li:before {
-    color: #f59e0b;
+    left: 6px;
 }
 
 .section strong {
-    color: #1e293b;
+    color: #000;
     font-weight: 600;
+}
+
+.section em {
+    font-style: italic;
+    color: #666;
 }
 
 /* Error section */
 .error-section {
     text-align: center;
-    padding: 60px 40px;
+    padding: 80px 40px;
 }
 
 .error-icon {
-    font-size: 60px;
+    font-size: 48px;
     margin-bottom: 16px;
-    color: #ef4444;
 }
 
 .error-section h3 {
-    font-size: 24px;
-    color: #1e293b;
+    font-size: 20px;
+    color: #000;
+    font-weight: 600;
     margin-bottom: 12px;
 }
 
 .error-message {
-    color: #64748b;
-    font-size: 15px;
+    color: #666;
+    font-size: 14px;
     margin-bottom: 24px;
     max-width: 500px;
     margin-left: auto;
     margin-right: auto;
+    line-height: 1.6;
 }
 
 .retry-btn {
-    background: #2563eb;
+    background: #000;
     color: white;
     border: none;
-    padding: 12px 32px;
-    border-radius: 8px;
-    font-size: 15px;
-    font-weight: 600;
+    padding: 10px 24px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
     cursor: pointer;
     transition: background 0.2s ease;
 }
 
 .retry-btn:hover {
-    background: #1d4ed8;
+    background: #333;
 }
 
 /* Footer */
 footer {
-    background: #f8fafc;
-    padding: 20px 40px;
+    background: white;
+    border-top: 1px solid #eaeaea;
+    padding: 32px 40px;
     text-align: center;
-    border-top: 1px solid #e5e7eb;
 }
 
 footer p {
-    color: #64748b;
-    font-size: 14px;
+    color: #666;
+    font-size: 13px;
 }
 
 /* Responsive design */
 @media (max-width: 768px) {
-    body {
-        padding: 10px;
-    }
-
     header {
-        padding: 30px 20px;
+        padding: 32px 24px;
     }
 
     header h1 {
-        font-size: 24px;
+        font-size: 28px;
     }
 
     .subtitle {
@@ -420,15 +422,15 @@ footer p {
     }
 
     main {
-        padding: 20px;
+        padding: 40px 24px;
     }
 
     .upload-area {
-        padding: 40px 20px;
+        padding: 40px 24px;
     }
 
     .upload-area h2 {
-        font-size: 20px;
+        font-size: 18px;
     }
 
     .results-header {
@@ -446,10 +448,10 @@ footer p {
     }
 
     .section h3 {
-        font-size: 18px;
+        font-size: 16px;
     }
 
     footer {
-        padding: 20px;
+        padding: 24px;
     }
 }

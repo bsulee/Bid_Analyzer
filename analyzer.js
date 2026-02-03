@@ -173,21 +173,22 @@ function displayResults(analysisText) {
 }
 
 function formatAnalysis(text) {
-    // Split into sections and format with HTML
+    // Clean up markdown artifacts
+    text = text.replace(/^#+\s+/gm, ''); // Remove # headers
+    text = text.replace(/^---+$/gm, ''); // Remove --- separators
+    text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>'); // Bold
+    text = text.replace(/\*(.*?)\*/g, '<em>$1</em>'); // Italic
+
     let html = '<div class="analysis-content">';
 
-    // Replace markdown-style formatting with HTML
-    text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-    text = text.replace(/\*(.*?)\*/g, '<em>$1</em>');
-
-    // Split by numbered sections
-    const sections = text.split(/(?=\d+\.\s+[A-Z\s]+)/);
+    // Split by numbered sections (1. PROJECT BASICS, 2. CRITICAL CONTRACT TERMS, etc.)
+    const sections = text.split(/(?=\d+\.\s+[A-Z][A-Z\s]+)/);
 
     sections.forEach(section => {
         if (!section.trim()) return;
 
         // Check if this is a major section (starts with number and caps)
-        const sectionMatch = section.match(/^(\d+)\.\s+([A-Z][A-Z\s]+)\n/);
+        const sectionMatch = section.match(/^(\d+)\.\s+([A-Z][A-Z\s]+)/);
 
         if (sectionMatch) {
             const sectionTitle = sectionMatch[2].trim();
@@ -221,7 +222,9 @@ function formatSectionContent(content) {
 
     lines.forEach(line => {
         line = line.trim();
-        if (!line) {
+
+        // Skip empty lines, markdown artifacts, and separators
+        if (!line || line === '---' || line === '##' || line === '#' || /^#+$/.test(line)) {
             if (inList) {
                 html += '</ul>';
                 inList = false;
@@ -235,7 +238,7 @@ function formatSectionContent(content) {
                 html += '<ul>';
                 inList = true;
             }
-            const itemText = line.replace(/^[-•\*\d\.]\s+/, '');
+            const itemText = line.replace(/^[-•\*\d\.]+\s+/, '');
             html += `<li>${itemText}</li>`;
         } else {
             if (inList) {
