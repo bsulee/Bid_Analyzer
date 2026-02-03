@@ -167,52 +167,96 @@ function displayResults(analysisText) {
     loadingSection.style.display = 'none';
     resultsSection.style.display = 'block';
 
-    // Parse and format the analysis
-    const formattedHTML = formatAnalysis(analysisText);
-    resultsContent.innerHTML = formattedHTML;
+    // Parse and create tabs
+    createTabs(analysisText);
 }
 
-function formatAnalysis(text) {
+function createTabs(text) {
     // Clean up markdown artifacts
     text = text.replace(/^#+\s+/gm, ''); // Remove # headers
     text = text.replace(/^---+$/gm, ''); // Remove --- separators
     text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>'); // Bold
     text = text.replace(/\*(.*?)\*/g, '<em>$1</em>'); // Italic
 
-    let html = '<div class="analysis-content">';
-
-    // Split by numbered sections (1. PROJECT BASICS, 2. CRITICAL CONTRACT TERMS, etc.)
+    // Split by numbered sections
     const sections = text.split(/(?=\d+\.\s+[A-Z][A-Z\s]+)/);
+    const tabNavigation = document.getElementById('tabNavigation');
+    const tabContent = document.getElementById('tabContent');
+
+    tabNavigation.innerHTML = '';
+    tabContent.innerHTML = '';
+
+    const parsedSections = [];
 
     sections.forEach(section => {
         if (!section.trim()) return;
 
-        // Check if this is a major section (starts with number and caps)
         const sectionMatch = section.match(/^(\d+)\.\s+([A-Z][A-Z\s]+)/);
-
         if (sectionMatch) {
             const sectionTitle = sectionMatch[2].trim();
             const sectionContent = section.substring(sectionMatch[0].length);
 
-            // Determine section class for styling
-            let sectionClass = 'section';
-            if (sectionTitle.includes('BID DECISION')) {
-                sectionClass = 'section bid-decision';
-            } else if (sectionTitle.includes('RISKS')) {
-                sectionClass = 'section risks';
-            }
-
-            html += `<div class="${sectionClass}">`;
-            html += `<h3>${sectionTitle}</h3>`;
-            html += formatSectionContent(sectionContent);
-            html += '</div>';
-        } else {
-            html += formatSectionContent(section);
+            parsedSections.push({
+                title: sectionTitle,
+                content: sectionContent
+            });
         }
     });
 
-    html += '</div>';
-    return html;
+    // Create tab buttons
+    parsedSections.forEach((section, index) => {
+        const button = document.createElement('button');
+        button.className = 'tab-btn' + (index === 0 ? ' active' : '');
+        button.textContent = section.title;
+        button.onclick = () => switchTab(index);
+        tabNavigation.appendChild(button);
+    });
+
+    // Create tab panels
+    parsedSections.forEach((section, index) => {
+        const panel = document.createElement('div');
+        panel.className = 'tab-panel' + (index === 0 ? ' active' : '');
+        panel.id = `tab-${index}`;
+
+        // Determine section class for styling
+        let sectionClass = '';
+        if (section.title.includes('BID DECISION')) {
+            sectionClass = ' bid-decision';
+        } else if (section.title.includes('RISKS')) {
+            sectionClass = ' risks';
+        }
+
+        panel.innerHTML = `
+            <div class="section${sectionClass}">
+                <h3>${section.title}</h3>
+                ${formatSectionContent(section.content)}
+            </div>
+        `;
+
+        tabContent.appendChild(panel);
+    });
+}
+
+function switchTab(tabIndex) {
+    // Update tab buttons
+    const tabButtons = document.querySelectorAll('.tab-btn');
+    tabButtons.forEach((btn, index) => {
+        if (index === tabIndex) {
+            btn.classList.add('active');
+        } else {
+            btn.classList.remove('active');
+        }
+    });
+
+    // Update tab panels
+    const tabPanels = document.querySelectorAll('.tab-panel');
+    tabPanels.forEach((panel, index) => {
+        if (index === tabIndex) {
+            panel.classList.add('active');
+        } else {
+            panel.classList.remove('active');
+        }
+    });
 }
 
 function formatSectionContent(content) {

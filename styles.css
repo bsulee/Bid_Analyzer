@@ -274,6 +274,55 @@ main {
     border-color: #000;
 }
 
+/* Tabs */
+.tabs-container {
+    margin-top: 24px;
+}
+
+.tab-navigation {
+    display: flex;
+    gap: 8px;
+    border-bottom: 1px solid #eaeaea;
+    margin-bottom: 32px;
+    overflow-x: auto;
+}
+
+.tab-btn {
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    padding: 12px 20px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #666;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+    margin-bottom: -1px;
+}
+
+.tab-btn:hover {
+    color: #000;
+}
+
+.tab-btn.active {
+    color: #000;
+    border-bottom-color: #000;
+}
+
+.tab-content {
+    min-height: 400px;
+}
+
+.tab-panel {
+    display: none;
+    animation: fadeIn 0.2s ease;
+}
+
+.tab-panel.active {
+    display: block;
+}
+
 /* Analysis content */
 .analysis-content {
     display: flex;
@@ -449,6 +498,19 @@ footer p {
 
     .section h3 {
         font-size: 16px;
+    }
+
+    .tab-navigation {
+        gap: 4px;
+    }
+
+    .tab-btn {
+        padding: 10px 16px;
+        font-size: 13px;
+    }
+
+    .tab-content {
+        min-height: 300px;
     }
 
     footer {
