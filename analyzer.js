@@ -208,7 +208,7 @@ Be thorough but concise. Focus on what actually matters for the bid/no-bid decis
 
 function getApiKey() {
     // Try to get API key from localStorage
-    return localStorage.getItem('ANTHROPIC_API_KEY') || '';
+    return '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';
 }
 
 function displayResults(analysisText) {
