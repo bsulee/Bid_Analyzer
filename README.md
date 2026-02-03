@@ -1,63 +1,115 @@
 # Construction Bid Analyzer
 
-An AI-powered tool for analyzing construction bid packages using Claude Sonnet 4.5. Upload a PDF bid document and receive a comprehensive analysis covering project basics, contract terms, bid recommendations, risks, and critical questions.
+AI-powered construction bid package analysis using Claude Sonnet 4.5. Upload a PDF bid document and receive comprehensive analysis covering project basics, contract terms, bid recommendations, risks, and critical questions.
 
 ## Features
 
 - **PDF Upload**: Drag-and-drop or browse to upload bid documents
-- **Complete Text Extraction**: Uses PDF.js to extract all text from PDFs (handles 100+ page documents)
-- **AI Analysis**: Powered by Claude Sonnet 4.5 for expert-level bid analysis
+- **Complete Text Extraction**: Extracts all text from PDFs (handles 100+ page documents)
+- **AI Analysis**: Expert-level bid analysis powered by Claude Sonnet 4.5
 - **Professional Reports**: Structured analysis covering:
   - Project basics (name, location, timeline)
   - Critical contract terms (duration, liquidated damages, bonds, insurance)
   - Bid/No-Bid recommendation with confidence level
   - Top risks identified
   - Critical questions to ask before bidding
+- **Secure**: API key stored server-side, never exposed to client
 - **Clean Interface**: Modern, responsive design with loading states and error handling
 
-## Setup
+## Deployment
 
-### 1. Set Your API Key
+### Deploy to Vercel
 
-Since this is a client-side application, you need to set your Anthropic API key in localStorage:
+1. **Push to GitHub** (if not already done)
 
-1. Open the application in your browser
-2. Open the browser console (F12 or right-click > Inspect > Console)
-3. Run this command:
-   ```javascript
-   localStorage.setItem("ANTHROPIC_API_KEY", "your-api-key-here");
+2. **Import to Vercel**:
+   - Go to [vercel.com](https://vercel.com)
+   - Click "Add New Project"
+   - Import your GitHub repository
+   - Vercel will auto-detect the configuration
+
+3. **Add Environment Variable**:
+   - In Vercel project settings, go to "Environment Variables"
+   - Add: `ANTHROPIC_API_KEY` = `your-api-key-here`
+   - Apply to all environments (Production, Preview, Development)
+
+4. **Deploy**:
+   - Click "Deploy"
+   - Your app will be live at `https://your-project.vercel.app`
+
+That's it! The app is production-ready.
+
+## Local Development
+
+1. **Install Vercel CLI**:
+   ```bash
+   npm i -g vercel
    ```
 
-**Security Note**: This stores your API key in browser localStorage. For production use, implement a backend proxy to keep API keys secure.
+2. **Create `.env` file**:
+   ```bash
+   ANTHROPIC_API_KEY=your-api-key-here
+   ```
 
-### 2. Open the Application
+3. **Run locally**:
+   ```bash
+   vercel dev
+   ```
 
-Simply open `index.html` in a modern web browser (Chrome, Firefox, Edge, Safari).
+4. **Open**: http://localhost:3000
 
 ## Usage
 
-1. **Upload PDF**: Drag and drop a bid package PDF or click to browse
-2. **Analyze**: Click "Analyze Bid Package" button
-3. **Review**: Read the comprehensive analysis provided by Claude
-4. **Analyze Another**: Click "Analyze Another Bid" to start over
+1. Open the deployed application
+2. Drag and drop a PDF bid package (or click to browse)
+3. Click "Analyze Bid Package"
+4. Review the comprehensive analysis
+5. Click "Analyze Another Bid" to start over
 
-## Technical Details
+## Architecture
 
-- **No Framework**: Pure vanilla JavaScript, HTML, and CSS
-- **No Backend Required**: Runs entirely in the browser
-- **PDF Processing**: Uses PDF.js 3.11.174 from CDN
-- **AI Model**: Claude Sonnet 4.5 (claude-sonnet-4-5-20250929)
-- **Max Tokens**: 4000 tokens for comprehensive analysis
+```
+Browser → Frontend (index.html + analyzer.js)
+              ↓
+         Vercel Function (/api/analyze.js)
+              ↓
+         Anthropic API (Claude Sonnet 4.5)
+```
+
+**Security**: API key is stored as a Vercel environment variable, never exposed to the client browser.
 
 ## File Structure
 
 ```
 Bid_Analyzer/
-├── index.html      # Main UI with upload and results sections
-├── analyzer.js     # PDF extraction and Anthropic API integration
-├── styles.css      # Professional styling and responsive design
-└── README.md       # Documentation
+├── index.html          # Main UI
+├── analyzer.js         # Frontend logic + PDF extraction
+├── styles.css          # Styling
+├── api/
+│   └── analyze.js      # Serverless function (backend)
+├── vercel.json         # Vercel configuration
+├── test.js             # Test suite
+└── README.md           # Documentation
 ```
+
+## Testing
+
+Run the test suite to verify everything works:
+
+```bash
+node test.js
+```
+
+All tests must pass before deployment.
+
+## Technical Details
+
+- **Frontend**: Vanilla JavaScript, HTML, CSS (no framework)
+- **PDF Processing**: PDF.js 3.11.174
+- **Backend**: Vercel Serverless Functions
+- **AI Model**: Claude Sonnet 4.5 (claude-sonnet-4-5-20250929)
+- **Max Analysis Tokens**: 4000
+- **Function Timeout**: 60 seconds
 
 ## Browser Compatibility
 
@@ -71,12 +123,9 @@ The application handles:
 - Empty or corrupted PDFs
 - API errors with clear messages
 - Network failures
-- Missing API key warnings
-
-## Development
-
-To modify the system prompt or analysis parameters, edit the `analyzeWithClaude()` function in `analyzer.js`.
+- Missing API key configuration
+- Invalid requests
 
 ## License
 
-MIT License - Feel free to modify and use for your construction business.
+MIT License

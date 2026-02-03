@@ -144,71 +144,23 @@ async function extractTextFromPDF(file) {
 }
 
 async function analyzeWithClaude(pdfText) {
-    const apiKey = getApiKey();
-
-    if (!apiKey) {
-        throw new Error('ANTHROPIC_API_KEY not found. Please set your API key in the browser console: localStorage.setItem("ANTHROPIC_API_KEY", "your-key-here")');
-    }
-
-    const systemPrompt = `You are a top 0.1% construction project manager with 20 years of experience analyzing bid packages.
-
-Analyze this bid document and provide a structured report covering:
-
-1. PROJECT BASICS
-- Project name, location, owner
-- Bid due date and timeline
-- Architect/engineer
-
-2. CRITICAL CONTRACT TERMS
-- Contract duration (substantial + final completion)
-- Liquidated damages (both amounts, calculate total per day)
-- Retainage percentage
-- Performance/payment bond requirements
-- Insurance requirements
-
-3. BID DECISION
-- Should we bid? (BID / NO-BID / CLARIFY)
-- Confidence level (0-100%)
-- 2-3 sentence explanation
-
-4. TOP RISKS
-- List 3-5 highest risks
-
-5. QUESTIONS TO ASK
-- List 3-5 critical questions before bidding
-
-Be thorough but concise. Focus on what actually matters for the bid/no-bid decision.`;
-
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
+    const response = await fetch('/api/analyze', {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json',
-            'x-api-key': apiKey,
-            'anthropic-version': '2023-06-01'
+            'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            model: 'claude-sonnet-4-5-20250929',
-            max_tokens: 4000,
-            system: systemPrompt,
-            messages: [{
-                role: 'user',
-                content: `Please analyze this construction bid document:\n\n${pdfText}`
-            }]
+            pdfText: pdfText
         })
     });
 
     if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.error?.message || `API request failed with status ${response.status}`);
+        throw new Error(errorData.error || `API request failed with status ${response.status}`);
     }
 
     const data = await response.json();
-    return data.content[0].text;
-}
-
-function getApiKey() {
-    // Try to get API key from localStorage
-    return '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';
+    return data.analysis;
 }
 
 function displayResults(analysisText) {
@@ -221,21 +173,22 @@ function displayResults(analysisText) {
 }
 
 function formatAnalysis(text) {
-    // Split into sections and format with HTML
+    // Clean up markdown artifacts
+    text = text.replace(/^#+\s+/gm, ''); // Remove # headers
+    text = text.replace(/^---+$/gm, ''); // Remove --- separators
+    text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>'); // Bold
+    text = text.replace(/\*(.*?)\*/g, '<em>$1</em>'); // Italic
+
     let html = '<div class="analysis-content">';
 
-    // Replace markdown-style formatting with HTML
-    text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-    text = text.replace(/\*(.*?)\*/g, '<em>$1</em>');
-
-    // Split by numbered sections
-    const sections = text.split(/(?=\d+\.\s+[A-Z\s]+)/);
+    // Split by numbered sections (1. PROJECT BASICS, 2. CRITICAL CONTRACT TERMS, etc.)
+    const sections = text.split(/(?=\d+\.\s+[A-Z][A-Z\s]+)/);
 
     sections.forEach(section => {
         if (!section.trim()) return;
 
         // Check if this is a major section (starts with number and caps)
-        const sectionMatch = section.match(/^(\d+)\.\s+([A-Z][A-Z\s]+)\n/);
+        const sectionMatch = section.match(/^(\d+)\.\s+([A-Z][A-Z\s]+)/);
 
         if (sectionMatch) {
             const sectionTitle = sectionMatch[2].trim();
@@ -269,7 +222,9 @@ function formatSectionContent(content) {
 
     lines.forEach(line => {
         line = line.trim();
-        if (!line) {
+
+        // Skip empty lines, markdown artifacts, and separators
+        if (!line || line === '---' || line === '##' || line === '#' || /^#+$/.test(line)) {
             if (inList) {
                 html += '</ul>';
                 inList = false;
@@ -283,7 +238,7 @@ function formatSectionContent(content) {
                 html += '<ul>';
                 inList = true;
             }
-            const itemText = line.replace(/^[-•\*\d\.]\s+/, '');
+            const itemText = line.replace(/^[-•\*\d\.]+\s+/, '');
             html += `<li>${itemText}</li>`;
         } else {
             if (inList) {
@@ -307,7 +262,6 @@ function showError(message) {
     errorMessage.textContent = message;
 }
 
-// Show API key setup message on load
+// Construction Bid Analyzer loaded
 console.log('%c Construction Bid Analyzer ', 'background: #2563eb; color: white; font-size: 16px; padding: 10px;');
-console.log('%c To use this analyzer, set your Anthropic API key: ', 'font-size: 12px; color: #374151;');
-console.log('%c localStorage.setItem("ANTHROPIC_API_KEY", "your-api-key-here"); ', 'font-size: 12px; color: #2563eb; background: #f3f4f6; padding: 5px;');
+console.log('%c Ready to analyze bid packages ', 'font-size: 12px; color: #374151;');
